@@ -9,7 +9,9 @@ This repository implements multiple layers of security to prevent accidental
 publication of sensitive data:
 
 ### Pre-commit Hooks
+
 Automatically run before every commit to catch issues early:
+
 - **Secret Detection**: Scans for API keys, passwords, and credentials
   using `detect-secrets` and `gitleaks`
 - **File Size Limits**: Prevents committing files larger than 1MB
@@ -19,7 +21,9 @@ Automatically run before every commit to catch issues early:
   (Python, JavaScript, Markdown, Shell)
 
 ### Continuous Integration (CI)
+
 GitHub Actions workflows that run on every push and pull request:
+
 - **Secret Scanning**: Full repository scan with Gitleaks
 - **CodeQL Analysis**: Advanced security vulnerability detection
 - **Dependency Review**: Checks for vulnerable dependencies in PRs
@@ -31,17 +35,20 @@ GitHub Actions workflows that run on every push and pull request:
 ### First-Time Setup
 
 1. **Install pre-commit**:
+
    ```bash
    pip install pre-commit
    ```
 
 2. **Install the git hooks**:
+
    ```bash
    cd claude_safe
    pre-commit install
    ```
 
 3. **Test the hooks** (optional):
+
    ```bash
    pre-commit run --all-files
    ```
@@ -49,11 +56,13 @@ GitHub Actions workflows that run on every push and pull request:
 ### Working with the Repository
 
 1. **Create a new branch** (never commit directly to main):
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
 
 2. **Make your changes** and commit:
+
    ```bash
    git add .
    git commit -m "Your commit message"
@@ -63,6 +72,7 @@ GitHub Actions workflows that run on every push and pull request:
    issues and commit again.
 
 3. **Push your branch**:
+
    ```bash
    git push origin feature/your-feature-name
    ```
