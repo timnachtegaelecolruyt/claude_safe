@@ -68,7 +68,7 @@ GitHub Actions workflows that run on every push and pull request:
 
 ## 📁 Monorepo Structure
 
-```
+```text
 claude_safe/
 ├── .github/
 │   └── workflows/          # CI/CD pipelines
