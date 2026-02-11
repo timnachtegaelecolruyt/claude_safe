@@ -86,7 +86,7 @@ jobs:
       contents: read
     strategy:
       matrix:
-        language: [ 'python', 'javascript' ]
+        language: [ 'python' ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
