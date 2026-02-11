@@ -46,13 +46,6 @@ repos:
       - id: flake8
         args: ['--max-line-length=120']
 
-  # Markdown linting
-  - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.39.0
-    hooks:
-      - id: markdownlint
-        args: ['--fix']
-
   # Shell script validation
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.10.0.1

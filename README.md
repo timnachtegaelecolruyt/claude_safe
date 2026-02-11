@@ -3,7 +3,7 @@
 A secure monorepo for Claude Code projects with automated security checks
 and quality controls.
 
-## 🔒 Security Features
+## Security Features
 
 This repository implements multiple layers of security to prevent accidental
 publication of sensitive data:
@@ -112,11 +112,13 @@ claude_safe/
 If detect-secrets flags a false positive:
 
 1. Add it to the baseline:
+
    ```bash
    detect-secrets scan --baseline .secrets.baseline
    ```
 
 2. Commit the updated baseline:
+
    ```bash
    git add .secrets.baseline
    git commit -m "Update secrets baseline"
@@ -125,6 +127,7 @@ If detect-secrets flags a false positive:
 ### Customizing Pre-commit Hooks
 
 Edit [.pre-commit-config.yaml](.pre-commit-config.yaml) to:
+
 - Add/remove hooks
 - Adjust file size limits
 - Configure linter rules
@@ -150,6 +153,7 @@ and ensure manual review.
 ## 📊 CI Status
 
 All CI checks must pass before merging:
+
 - ✅ Pre-commit hooks
 - ✅ Secret scanning (Gitleaks)
 - ✅ File size validation
