@@ -1,18 +1,22 @@
 # claude_safe
 
-A secure monorepo for Claude Code projects with automated security checks and quality controls.
+A secure monorepo for Claude Code projects with automated security checks
+and quality controls.
 
 ## 🔒 Security Features
 
-This repository implements multiple layers of security to prevent accidental publication of sensitive data:
+This repository implements multiple layers of security to prevent accidental
+publication of sensitive data:
 
 ### Pre-commit Hooks
 Automatically run before every commit to catch issues early:
-- **Secret Detection**: Scans for API keys, passwords, and credentials using `detect-secrets` and `gitleaks`
+- **Secret Detection**: Scans for API keys, passwords, and credentials
+  using `detect-secrets` and `gitleaks`
 - **File Size Limits**: Prevents committing files larger than 1MB
 - **Private Key Detection**: Blocks commits containing private keys
 - **Branch Protection**: Prevents direct commits to main/master branches
-- **Code Quality**: Runs linters and formatters (Python, JavaScript, Markdown, Shell)
+- **Code Quality**: Runs linters and formatters
+  (Python, JavaScript, Markdown, Shell)
 
 ### Continuous Integration (CI)
 GitHub Actions workflows that run on every push and pull request:
@@ -55,7 +59,8 @@ GitHub Actions workflows that run on every push and pull request:
    git commit -m "Your commit message"
    ```
 
-   The pre-commit hooks will run automatically. If they fail, fix the issues and commit again.
+   The pre-commit hooks will run automatically. If they fail, fix the
+   issues and commit again.
 
 3. **Push your branch**:
    ```bash
@@ -129,7 +134,8 @@ In rare cases where you need to bypass pre-commit hooks:
 git commit --no-verify -m "Emergency fix"
 ```
 
-**⚠️ WARNING**: This skips all security checks. Only use in emergencies and ensure manual review.
+**⚠️ WARNING**: This skips all security checks. Only use in emergencies
+and ensure manual review.
 
 ## 📊 CI Status
 
