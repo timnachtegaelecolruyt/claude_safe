@@ -47,3 +47,17 @@ clean: ## Clean up cache and temporary files
 
 validate: lint test ## Run validation checks (lint + test)
 	@echo "✅ All validation checks passed"
+
+# Deep Research project commands
+deep-research: ## Run deep research tool (usage: make deep-research TOPIC="your topic" MAX_RESULTS=10)
+	@if [ -z "$(TOPIC)" ]; then \
+		echo "Error: TOPIC is required. Usage: make deep-research TOPIC=\"quantum computing\""; \
+		exit 1; \
+	fi
+	poetry run python -m projects.deep_research.main --topic "$(TOPIC)" $(if $(MAX_RESULTS),--max-results $(MAX_RESULTS),) $(if $(DATE_FROM),--date-from $(DATE_FROM),) $(if $(DATE_TO),--date-to $(DATE_TO),) $(if $(OUTPUT),--output $(OUTPUT),)
+
+deep-research-test: ## Run deep research tests
+	poetry run pytest projects/deep_research/
+
+deep-research-example: ## Run deep research with example topic
+	poetry run python -m projects.deep_research.main --topic "quantum computing" --max-results 5

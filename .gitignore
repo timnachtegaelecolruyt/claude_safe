@@ -75,3 +75,5 @@ Thumbs.db
 *.tmp
 *.temp
 .cache/
+
+outputs

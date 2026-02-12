@@ -26,5 +26,5 @@
 - This is a monorepo where we'll build all of our data engineering projects
 - I want everything production quality before we push it to Github, or I
   will get fired
-- Main programming language is Python, package en env management is with
+- Main programming language is Python, package and env management is with
   Poetry

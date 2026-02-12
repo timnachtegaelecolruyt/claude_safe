@@ -8,6 +8,13 @@ packages = [{include = "projects"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+anthropic = "^0.79.0"
+arxiv = "^2.4.0"
+httpx = "^0.28.1"
+beautifulsoup4 = "^4.14.3"
+pydantic = "^2.12.5"
+python-dotenv = "^1.2.1"
+openai = "^2.20.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.6.0"
