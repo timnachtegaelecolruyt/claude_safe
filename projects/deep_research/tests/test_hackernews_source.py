@@ -1,6 +1,7 @@
 """Tests for HackerNews source integration."""
 
 from unittest.mock import patch, MagicMock
+from urllib.parse import urlparse
 import httpx
 from projects.deep_research.sources.hackernews_source import search_stories
 from projects.deep_research.models import ResearchResult
@@ -68,8 +69,9 @@ class TestSearchStories:
         results = search_stories(topic="kubernetes", max_results=5)
 
         # Second story has no external URL, should use HN discussion link
-        assert "news.ycombinator.com" in results[1].url
-        assert "67890" in results[1].url
+        parsed_url = urlparse(results[1].url)
+        assert parsed_url.netloc == "news.ycombinator.com"
+        assert "67890" in parsed_url.query or "67890" in parsed_url.path
 
     @patch("projects.deep_research.sources.hackernews_source.httpx.get")
     def test_parses_metadata(self, mock_get: MagicMock) -> None:

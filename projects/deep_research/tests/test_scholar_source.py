@@ -1,6 +1,7 @@
 """Tests for Semantic Scholar source integration."""
 
 from unittest.mock import patch, MagicMock
+from urllib.parse import urlparse
 import httpx
 from projects.deep_research.sources.scholar_source import search_papers
 from projects.deep_research.models import ResearchResult
@@ -68,7 +69,8 @@ class TestSearchPapers:
         results = search_papers(topic="bert", max_results=5)
 
         # Second paper has empty url but has DOI
-        assert "doi.org" in results[1].url
+        parsed_url = urlparse(results[1].url)
+        assert parsed_url.netloc == "doi.org"
 
     @patch("projects.deep_research.sources.scholar_source.httpx.get")
     def test_handles_missing_abstract(self, mock_get: MagicMock) -> None:
