@@ -1,10 +1,19 @@
 """Markdown report generation for research results."""
 
 import os
+from collections import defaultdict
 from datetime import datetime
 from typing import Optional
 from .models import ResearchReport
 from .config import config
+
+SOURCE_LABELS = {
+    "arxiv": "Academic Papers (arXiv)",
+    "semantic_scholar": "Academic Papers (Semantic Scholar)",
+    "web": "Web Results",
+    "news": "News Articles",
+    "hackernews": "Community Discussions (HackerNews)",
+}
 
 
 def generate_markdown(report: ResearchReport) -> str:
@@ -50,28 +59,37 @@ def generate_markdown(report: ResearchReport) -> str:
             md_parts.append(f"{idx}. {insight}")
         md_parts.append("\n---\n")
 
-    # Research Results
+    # Group results by source
     if report.results:
-        md_parts.append(f"## Research Papers ({len(report.results)} found)\n")
+        grouped: dict[str, list] = defaultdict(list)
+        for result in report.results:
+            grouped[result.source].append(result)
 
-        for idx, result in enumerate(report.results, 1):
-            md_parts.append(f"### {idx}. {result.title}\n")
+        for source_key, group_results in grouped.items():
+            section_label = SOURCE_LABELS.get(source_key, source_key.title())
+            md_parts.append(f"## {section_label} ({len(group_results)} found)\n")
 
-            # Authors
-            if result.authors:
-                authors_str = ", ".join(result.authors[:5])
-                if len(result.authors) > 5:
-                    authors_str += " et al."
-                md_parts.append(f"**Authors**: {authors_str}  ")
+            for idx, result in enumerate(group_results, 1):
+                md_parts.append(f"### {idx}. {result.title}\n")
 
-            # Metadata
-            md_parts.append(f"**Published**: {result.published_date}  ")
-            md_parts.append(f"**Source**: {result.source}  ")
-            md_parts.append(f"**URL**: [{result.url}]({result.url})  \n")
+                # Authors
+                if result.authors:
+                    authors_str = ", ".join(result.authors[:5])
+                    if len(result.authors) > 5:
+                        authors_str += " et al."
+                    md_parts.append(f"**Authors**: {authors_str}  ")
 
-            # Abstract
-            md_parts.append("**Abstract**:")
-            md_parts.append(f"\n{result.abstract}\n")
+                # Metadata
+                if result.published_date:
+                    md_parts.append(f"**Published**: {result.published_date}  ")
+                md_parts.append(f"**Source**: {result.source}  ")
+                if result.url:
+                    md_parts.append(f"**URL**: [{result.url}]({result.url})  \n")
+
+                # Abstract
+                if result.abstract:
+                    md_parts.append("**Abstract**:")
+                    md_parts.append(f"\n{result.abstract}\n")
 
     # Footer
     md_parts.append("---\n")

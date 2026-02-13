@@ -31,17 +31,25 @@ def analyze_research(query: ResearchQuery, results: List[ResearchResult]) -> Dic
         context = _build_research_context(results)
 
         # Create prompt for analysis
-        prompt = f"""You are a research analyst tasked with synthesizing insights from academic papers and sources.
+        # Count sources for context
+        source_counts: dict[str, int] = {}
+        for r in results:
+            source_counts[r.source] = source_counts.get(r.source, 0) + 1
+        source_summary = ", ".join(f"{count} from {src}" for src, count in source_counts.items())
+
+        prompt = f"""You are a research analyst tasked with synthesizing insights from multiple source types \
+including academic papers, web articles, news, and community discussions.
 
 Research Topic: {query.topic}
 
-I have collected {len(results)} research papers and sources on this topic. Please analyze them and provide:
+I have collected {len(results)} results ({source_summary}). Please analyze them and provide:
 
-1. **Executive Summary**: A concise 2-3 paragraph overview of the current state of research in this area
-2. **Key Insights**: 5-7 specific, actionable insights or trends you observe from this research
+1. **Executive Summary**: A concise 2-3 paragraph overview combining academic findings, market/industry context, \
+and real-world experiences
+2. **Key Insights**: 5-7 specific, actionable insights or trends, drawing from across source types
 3. **Notable Findings**: Any particularly interesting or significant findings that stand out
 
-Research Papers:
+Sources:
 
 {context}
 

@@ -23,6 +23,25 @@ class Config:
         self.default_date_from: str = os.getenv("DEFAULT_DATE_FROM", self._get_default_date_from())
         self.output_dir: str = os.getenv("OUTPUT_DIR", "outputs")
 
+        # Source settings — all sources enabled by default
+        all_sources = "arxiv,web,news,semantic_scholar,hackernews"
+        self.enabled_sources: list[str] = os.getenv("ENABLED_SOURCES", all_sources).split(",")
+
+        # Filtering settings
+        self.enable_relevance_filter: bool = os.getenv("ENABLE_RELEVANCE_FILTER", "true").lower() in (
+            "true",
+            "1",
+            "yes",
+        )
+        self.filter_batch_size: int = int(os.getenv("FILTER_BATCH_SIZE", "1"))
+
+        # Source selection settings
+        self.enable_source_selection: bool = os.getenv("ENABLE_SOURCE_SELECTION", "true").lower() in (
+            "true",
+            "1",
+            "yes",
+        )
+
         # Validate required settings
         if not self.ollama_base_url:
             raise ValueError("OLLAMA_BASE_URL is required. Please set it in your .env file or environment variables.")
