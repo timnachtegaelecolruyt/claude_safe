@@ -20,6 +20,7 @@ from .sources.google_trends_source import search_trends as google_trends_search
 from .synthesis.analyzer import analyze_research
 from .synthesis.filter import filter_relevant_results
 from .synthesis.source_selector import select_sources
+from .synthesis.query_rewriter import rewrite_query
 from .report_generator import generate_markdown, save_report
 from .config import config
 
@@ -50,7 +51,7 @@ def _collect_results(query: ResearchQuery, active_sources: List[str]) -> List[Re
             if source == "arxiv":
                 print(f"  [{idx}/{total}] Searching arXiv...")
                 results = arxiv_search(
-                    topic=query.topic,
+                    topic=query.effective_query,
                     date_from=query.date_from,
                     date_to=query.date_to,
                     max_results=query.max_results,
@@ -58,7 +59,7 @@ def _collect_results(query: ResearchQuery, active_sources: List[str]) -> List[Re
             elif source == "openalex":
                 print(f"  [{idx}/{total}] Searching OpenAlex...")
                 results = openalex_search(
-                    topic=query.topic,
+                    topic=query.effective_query,
                     date_from=query.date_from,
                     date_to=query.date_to,
                     max_results=query.max_results,
@@ -66,7 +67,7 @@ def _collect_results(query: ResearchQuery, active_sources: List[str]) -> List[Re
             elif source == "dblp":
                 print(f"  [{idx}/{total}] Searching DBLP...")
                 results = dblp_search(
-                    topic=query.topic,
+                    topic=query.effective_query,
                     date_from=query.date_from,
                     date_to=query.date_to,
                     max_results=query.max_results,
@@ -74,7 +75,7 @@ def _collect_results(query: ResearchQuery, active_sources: List[str]) -> List[Re
             elif source == "europepmc":
                 print(f"  [{idx}/{total}] Searching Europe PMC...")
                 results = europepmc_search(
-                    topic=query.topic,
+                    topic=query.effective_query,
                     date_from=query.date_from,
                     date_to=query.date_to,
                     max_results=query.max_results,
@@ -82,7 +83,7 @@ def _collect_results(query: ResearchQuery, active_sources: List[str]) -> List[Re
             elif source == "core":
                 print(f"  [{idx}/{total}] Searching CORE...")
                 results = core_search(
-                    topic=query.topic,
+                    topic=query.effective_query,
                     date_from=query.date_from,
                     date_to=query.date_to,
                     max_results=query.max_results,
@@ -90,32 +91,32 @@ def _collect_results(query: ResearchQuery, active_sources: List[str]) -> List[Re
             elif source == "crossref":
                 print(f"  [{idx}/{total}] Searching CrossRef...")
                 results = crossref_search(
-                    topic=query.topic,
+                    topic=query.effective_query,
                     date_from=query.date_from,
                     date_to=query.date_to,
                     max_results=query.max_results,
                 )
             elif source == "web":
                 print(f"  [{idx}/{total}] Searching web (DuckDuckGo)...")
-                results = search_web(topic=query.topic, max_results=query.max_results)
+                results = search_web(topic=query.effective_query, max_results=query.max_results)
             elif source == "news":
                 print(f"  [{idx}/{total}] Searching news (DuckDuckGo)...")
-                results = search_news(topic=query.topic, max_results=query.max_results)
+                results = search_news(topic=query.effective_query, max_results=query.max_results)
             elif source == "semantic_scholar":
                 print(f"  [{idx}/{total}] Searching Semantic Scholar...")
                 results = scholar_search(
-                    topic=query.topic,
+                    topic=query.effective_query,
                     date_from=query.date_from,
                     date_to=query.date_to,
                     max_results=query.max_results,
                 )
             elif source == "hackernews":
                 print(f"  [{idx}/{total}] Searching HackerNews...")
-                results = search_stories(topic=query.topic, max_results=query.max_results)
+                results = search_stories(topic=query.effective_query, max_results=query.max_results)
             elif source == "reddit":
                 print(f"  [{idx}/{total}] Searching Reddit...")
                 results = reddit_search(
-                    topic=query.topic,
+                    topic=query.effective_query,
                     date_from=query.date_from,
                     date_to=query.date_to,
                     max_results=query.max_results,
@@ -123,7 +124,7 @@ def _collect_results(query: ResearchQuery, active_sources: List[str]) -> List[Re
             elif source == "github":
                 print(f"  [{idx}/{total}] Searching GitHub...")
                 results = github_search(
-                    topic=query.topic,
+                    topic=query.effective_query,
                     date_from=query.date_from,
                     date_to=query.date_to,
                     max_results=query.max_results,
@@ -131,7 +132,7 @@ def _collect_results(query: ResearchQuery, active_sources: List[str]) -> List[Re
             elif source == "google_trends":
                 print(f"  [{idx}/{total}] Searching Google Trends...")
                 results = google_trends_search(
-                    topic=query.topic,
+                    topic=query.effective_query,
                     date_from=query.date_from,
                     date_to=query.date_to,
                     max_results=query.max_results,
@@ -188,6 +189,11 @@ Examples:
         action="store_true",
         help="Disable AI source selection (uses all configured sources)",
     )
+    parser.add_argument(
+        "--no-rewrite",
+        action="store_true",
+        help="Disable AI query rewriting (uses topic as-is for search)",
+    )
 
     args = parser.parse_args()
 
@@ -219,7 +225,17 @@ Examples:
             print("Deep Research Tool - Starting Analysis")
             print(f"{'='*60}\n")
 
+        # AI-powered query rewriting (optional)
+        search_query = None
+        if not args.no_rewrite:
+            step_label = "[1/5]" if enable_selection else "[0/4]"
+            print(f"{step_label} Rewriting query using AI ({config.ollama_model})...")
+            search_query = rewrite_query(args.topic, verbose=True)
+            print()
+
         print(f"Topic: {args.topic}")
+        if search_query and search_query != args.topic:
+            print(f"Search Query: {search_query}")
         print(f"Max Results: {args.max_results} per source")
         print(f"Sources: {', '.join(active_sources)}")
         if args.date_from:
@@ -229,7 +245,11 @@ Examples:
         print()
 
         query = ResearchQuery(
-            topic=args.topic, date_from=args.date_from, date_to=args.date_to, max_results=args.max_results
+            topic=args.topic,
+            search_query=search_query,
+            date_from=args.date_from,
+            date_to=args.date_to,
+            max_results=args.max_results,
         )
 
         # Step 1: Collect from all sources

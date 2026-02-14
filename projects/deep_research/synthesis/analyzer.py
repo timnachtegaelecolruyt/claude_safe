@@ -44,7 +44,7 @@ Research Topic: {query.topic}
 
 I have collected {len(results)} results ({source_summary}). Please analyze them and provide:
 
-1. **Executive Summary**: A concise 2-3 paragraph overview combining academic findings, market/industry context, \
+1. **Executive Summary**: A concise 2-5 paragraph overview combining academic findings, market/industry context, \
 and real-world experiences
 2. **Key Insights**: 5-7 specific, actionable insights or trends, drawing from across source types
 3. **Notable Findings**: Any particularly interesting or significant findings that stand out

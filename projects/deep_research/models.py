@@ -9,9 +9,15 @@ class ResearchQuery(BaseModel):
     """Input specification for a research request."""
 
     topic: str = Field(..., description="Research topic or query string")
+    search_query: Optional[str] = Field(None, description="AI-rewritten search query optimized for source APIs")
     date_from: Optional[str] = Field(None, description="Start date for filtering results (YYYY-MM-DD)")
     date_to: Optional[str] = Field(None, description="End date for filtering results (YYYY-MM-DD)")
     max_results: int = Field(10, ge=1, le=100, description="Maximum number of results to fetch per source")
+
+    @property
+    def effective_query(self) -> str:
+        """Return search_query if available, otherwise fall back to topic."""
+        return self.search_query or self.topic
 
     model_config = ConfigDict(
         json_schema_extra={
