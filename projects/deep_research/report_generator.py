@@ -9,6 +9,7 @@ from .config import config
 
 SOURCE_LABELS = {
     "arxiv": "Academic Papers (arXiv)",
+    "openalex": "Academic Papers (OpenAlex)",
     "semantic_scholar": "Academic Papers (Semantic Scholar)",
     "web": "Web Results",
     "news": "News Articles",
