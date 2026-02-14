@@ -24,7 +24,7 @@ class Config:
         self.output_dir: str = os.getenv("OUTPUT_DIR", "outputs")
 
         # Source settings — all sources enabled by default
-        all_sources = "arxiv,web,news,semantic_scholar,hackernews"
+        all_sources = "arxiv,openalex,dblp,europepmc,core,crossref,web,news,semantic_scholar,hackernews"
         self.enabled_sources: list[str] = os.getenv("ENABLED_SOURCES", all_sources).split(",")
 
         # Filtering settings
