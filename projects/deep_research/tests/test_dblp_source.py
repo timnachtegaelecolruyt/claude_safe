@@ -1,5 +1,7 @@
 """Tests for DBLP source integration."""
 
+from urllib.parse import urlparse
+
 from projects.deep_research.sources.dblp_source import search_papers
 from projects.deep_research.models import ResearchResult
 
@@ -94,7 +96,8 @@ def test_search_papers_url_preference() -> None:
         assert len(result.url) > 0
 
         # DOI URLs should be normalized to https://doi.org/...
-        if "doi.org" in result.url:
+        parsed = urlparse(result.url)
+        if parsed.netloc == "doi.org":
             assert result.url.startswith("https://doi.org/")
 
 

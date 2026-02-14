@@ -6,6 +6,8 @@ Note: CORE API has strict rate limits without an API key:
 - Tests may fail with rate limit errors if run in quick succession
 """
 
+from urllib.parse import urlparse
+
 from projects.deep_research.sources.core_source import search_papers
 from projects.deep_research.models import ResearchResult
 
@@ -98,12 +100,13 @@ def test_search_papers_url_generation() -> None:
         assert len(result.url) > 0
 
         # DOI URLs should be normalized to https://doi.org/...
-        if "doi.org" in result.url:
+        parsed = urlparse(result.url)
+        if parsed.netloc == "doi.org":
             assert result.url.startswith("https://doi.org/")
 
         # CORE URLs should be valid
-        if "core.ac.uk" in result.url:
-            assert "core.ac.uk/works/" in result.url or "core.ac.uk/download/" in result.url
+        if parsed.netloc == "core.ac.uk":
+            assert "/works/" in parsed.path or "/download/" in parsed.path
 
 
 def test_search_papers_publication_date_format() -> None:
