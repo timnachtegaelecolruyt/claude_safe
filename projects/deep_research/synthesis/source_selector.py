@@ -50,6 +50,29 @@ def select_sources(topic: str, available_sources: List[str], verbose: bool = Tru
                 "Tech community discussions and curated links. Best for: trending tech topics, "
                 "startup news, developer perspectives, community opinions, popular tools."
             ),
+            "dblp": (
+                "Comprehensive computer science bibliography covering journals, conferences, and "
+                "workshops. Best for: computer science publications, conference papers, CS venues, "
+                "author bibliographies."
+            ),
+            "openalex": (
+                "Fully-open index of 474M+ scholarly works across all disciplines. Best for: "
+                "broad academic search, interdisciplinary research, citation analysis, open access papers."
+            ),
+            "crossref": (
+                "Metadata for 140M+ scholarly works from publishers worldwide including journals, "
+                "books, and dissertations. Best for: published research across all fields, DOI lookup, "
+                "publisher metadata, citation counts."
+            ),
+            "core": (
+                "Aggregator of 300M+ open access research papers from repositories and journals. "
+                "Best for: open access papers, institutional repository content, full-text access, "
+                "interdisciplinary research."
+            ),
+            "europepmc": (
+                "40M+ life sciences publications including PubMed and PubMed Central. Best for: "
+                "biomedical research, medicine, biology, pharmacology, clinical studies, life sciences."
+            ),
         }
 
         # Filter to only available sources

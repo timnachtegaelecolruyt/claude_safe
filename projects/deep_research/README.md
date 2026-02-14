@@ -4,7 +4,7 @@ A Python-based research automation tool that searches academic papers, synthesiz
 
 ## Features
 
-- **Multi-Source Research**: Searches arXiv, Semantic Scholar, web, news, and HackerNews
+- **Multi-Source Research**: Searches 10 sources including arXiv, Semantic Scholar, OpenAlex, DBLP, CrossRef, CORE, Europe PMC, web, news, and HackerNews
 - **AI Source Selection**: Automatically selects the most relevant sources for each topic
 - **AI Relevance Filtering**: Uses Ollama to automatically filter out irrelevant papers/articles
 - **AI-Powered Synthesis**: Uses local Ollama models to analyze and extract key insights
@@ -18,7 +18,7 @@ A Python-based research automation tool that searches academic papers, synthesiz
 The Deep Research Tool automates the research process:
 
 1. **Analyzes** the topic and selects optimal sources (optional, enabled by default)
-2. **Searches** selected sources (arXiv, Semantic Scholar, web, news, HackerNews) for papers and articles
+2. **Searches** selected sources (arXiv, OpenAlex, DBLP, Europe PMC, CORE, CrossRef, Semantic Scholar, web, news, HackerNews) for papers and articles
 3. **Filters** results using AI to remove irrelevant content (optional, enabled by default)
 4. **Collects** paper metadata, abstracts, and citations
 5. **Analyzes** the research using local Ollama models to identify trends and insights
@@ -175,6 +175,11 @@ The tool intelligently selects which sources to search based on your topic, savi
 
 - **arXiv**: Academic research papers in physics, computer science, mathematics, biology, and other sciences
 - **Semantic Scholar**: Academic papers with citation data across all fields
+- **OpenAlex**: Fully-open index of 474M+ scholarly works across all disciplines
+- **DBLP**: Comprehensive computer science bibliography covering journals, conferences, and workshops
+- **CrossRef**: Metadata for 140M+ scholarly works from publishers worldwide
+- **CORE**: Aggregator of 300M+ open access research papers from repositories and journals
+- **Europe PMC**: 40M+ life sciences publications including PubMed and PubMed Central
 - **news**: Recent news articles, press releases, and industry announcements
 - **web**: General web content including blogs, documentation, tutorials, and technical articles
 - **hackernews**: Tech community discussions and curated links
@@ -183,7 +188,7 @@ The tool intelligently selects which sources to search based on your topic, savi
 ```
 [0/5] Selecting optimal sources using AI...
       Analyzing topic to select optimal sources...
-      Selected 3/5 sources: news, web, semantic_scholar
+      Selected 3/10 sources: news, web, semantic_scholar
         • news: Industry topic likely to have recent announcements
         • web: Practical tooling information available
         • semantic_scholar: May have relevant research papers
@@ -265,10 +270,20 @@ deep_research/
 ├── report_generator.py       # Markdown report generation
 ├── sources/
 │   ├── __init__.py
-│   └── arxiv_source.py      # arXiv API integration
+│   ├── arxiv_source.py       # arXiv API integration
+│   ├── scholar_source.py     # Semantic Scholar API integration
+│   ├── openalex_source.py    # OpenAlex API integration
+│   ├── dblp_source.py        # DBLP API integration
+│   ├── crossref_source.py    # CrossRef API integration
+│   ├── core_source.py        # CORE API integration
+│   ├── europepmc_source.py   # Europe PMC API integration
+│   ├── web_source.py         # Web and news search integration
+│   └── hackernews_source.py  # HackerNews API integration
 ├── synthesis/
 │   ├── __init__.py
-│   └── analyzer.py          # Ollama LLM analysis
+│   ├── analyzer.py           # Ollama LLM analysis
+│   ├── source_selector.py    # AI-powered source selection
+│   └── filter.py             # AI relevance filtering
 ├── outputs/                  # Generated reports (created automatically)
 └── tests/                    # Test suite
 ```
@@ -302,7 +317,6 @@ flake8 .
 
 This is a **prototype for learning and experimentation**. Current limitations:
 
-- **Single data source**: Only searches arXiv (no web scraping, news, or company data yet)
 - **No caching**: Each search makes fresh API calls
 - **Basic error handling**: Limited retry logic and error recovery
 - **Markdown only**: No PDF or HTML export yet
@@ -313,9 +327,6 @@ This is a **prototype for learning and experimentation**. Current limitations:
 
 Potential improvements for future versions:
 
-- Add Semantic Scholar integration for citation analysis
-- Implement web scraping for market research
-- Add company and news data sources
 - Implement caching to reduce API calls
 - Add database storage for research history
 - Support PDF and HTML export formats
@@ -370,5 +381,5 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ## Acknowledgments
 
 - Built with [Ollama](https://ollama.ai) for local LLM inference
-- Uses [arXiv API](https://arxiv.org/) for academic paper search
+- Uses [arXiv API](https://arxiv.org/), [Semantic Scholar](https://www.semanticscholar.org/), [OpenAlex](https://openalex.org/), [DBLP](https://dblp.org/), [CrossRef](https://www.crossref.org/), [CORE](https://core.ac.uk/), and [Europe PMC](https://europepmc.org/) for academic paper search
 - Created using Claude Code CLI
