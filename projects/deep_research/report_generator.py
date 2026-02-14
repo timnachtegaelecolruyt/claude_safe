@@ -11,6 +11,7 @@ SOURCE_LABELS = {
     "arxiv": "Academic Papers (arXiv)",
     "openalex": "Academic Papers (OpenAlex)",
     "dblp": "Computer Science Bibliography (DBLP)",
+    "europepmc": "Biomedical & Life Sciences (Europe PMC)",
     "semantic_scholar": "Academic Papers (Semantic Scholar)",
     "web": "Web Results",
     "news": "News Articles",
