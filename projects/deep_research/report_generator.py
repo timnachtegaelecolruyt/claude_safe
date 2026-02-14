@@ -13,6 +13,7 @@ SOURCE_LABELS = {
     "dblp": "Computer Science Bibliography (DBLP)",
     "europepmc": "Biomedical & Life Sciences (Europe PMC)",
     "core": "Open Access Research (CORE)",
+    "crossref": "DOI Metadata Registry (CrossRef)",
     "semantic_scholar": "Academic Papers (Semantic Scholar)",
     "web": "Web Results",
     "news": "News Articles",
