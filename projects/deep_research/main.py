@@ -9,13 +9,17 @@ from .sources.arxiv_source import search_papers as arxiv_search
 from .sources.web_source import search_web, search_news
 from .sources.scholar_source import search_papers as scholar_search
 from .sources.hackernews_source import search_stories
+from .sources.openalex_source import search_papers as openalex_search
+from .sources.dblp_source import search_papers as dblp_search
+from .sources.europepmc_source import search_papers as europepmc_search
+from .sources.core_source import search_papers as core_search
 from .synthesis.analyzer import analyze_research
 from .synthesis.filter import filter_relevant_results
 from .synthesis.source_selector import select_sources
 from .report_generator import generate_markdown, save_report
 from .config import config
 
-ALL_SOURCES = ["arxiv", "web", "news", "semantic_scholar", "hackernews"]
+ALL_SOURCES = ["arxiv", "openalex", "dblp", "europepmc", "core", "web", "news", "semantic_scholar", "hackernews"]
 
 
 def _collect_results(query: ResearchQuery, active_sources: List[str]) -> List[ResearchResult]:
@@ -28,6 +32,38 @@ def _collect_results(query: ResearchQuery, active_sources: List[str]) -> List[Re
             if source == "arxiv":
                 print(f"  [{idx}/{total}] Searching arXiv...")
                 results = arxiv_search(
+                    topic=query.topic,
+                    date_from=query.date_from,
+                    date_to=query.date_to,
+                    max_results=query.max_results,
+                )
+            elif source == "openalex":
+                print(f"  [{idx}/{total}] Searching OpenAlex...")
+                results = openalex_search(
+                    topic=query.topic,
+                    date_from=query.date_from,
+                    date_to=query.date_to,
+                    max_results=query.max_results,
+                )
+            elif source == "dblp":
+                print(f"  [{idx}/{total}] Searching DBLP...")
+                results = dblp_search(
+                    topic=query.topic,
+                    date_from=query.date_from,
+                    date_to=query.date_to,
+                    max_results=query.max_results,
+                )
+            elif source == "europepmc":
+                print(f"  [{idx}/{total}] Searching Europe PMC...")
+                results = europepmc_search(
+                    topic=query.topic,
+                    date_from=query.date_from,
+                    date_to=query.date_to,
+                    max_results=query.max_results,
+                )
+            elif source == "core":
+                print(f"  [{idx}/{total}] Searching CORE...")
+                results = core_search(
                     topic=query.topic,
                     date_from=query.date_from,
                     date_to=query.date_to,
