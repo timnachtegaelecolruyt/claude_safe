@@ -36,7 +36,7 @@ repos:
     rev: 7.0.0
     hooks:
       - id: flake8
-        args: ['--max-line-length=120']
+        args: ['--max-line-length=120', '--extend-ignore=E203']
 
   # Security checks - DISABLED for firewall environments
   # Uncomment these when on unrestricted network:

@@ -14,6 +14,9 @@ from .sources.dblp_source import search_papers as dblp_search
 from .sources.europepmc_source import search_papers as europepmc_search
 from .sources.core_source import search_papers as core_search
 from .sources.crossref_source import search_papers as crossref_search
+from .sources.reddit_source import search_posts as reddit_search
+from .sources.github_source import search_repos as github_search
+from .sources.google_trends_source import search_trends as google_trends_search
 from .synthesis.analyzer import analyze_research
 from .synthesis.filter import filter_relevant_results
 from .synthesis.source_selector import select_sources
@@ -31,6 +34,9 @@ ALL_SOURCES = [
     "news",
     "semantic_scholar",
     "hackernews",
+    "reddit",
+    "github",
+    "google_trends",
 ]
 
 
@@ -106,6 +112,30 @@ def _collect_results(query: ResearchQuery, active_sources: List[str]) -> List[Re
             elif source == "hackernews":
                 print(f"  [{idx}/{total}] Searching HackerNews...")
                 results = search_stories(topic=query.topic, max_results=query.max_results)
+            elif source == "reddit":
+                print(f"  [{idx}/{total}] Searching Reddit...")
+                results = reddit_search(
+                    topic=query.topic,
+                    date_from=query.date_from,
+                    date_to=query.date_to,
+                    max_results=query.max_results,
+                )
+            elif source == "github":
+                print(f"  [{idx}/{total}] Searching GitHub...")
+                results = github_search(
+                    topic=query.topic,
+                    date_from=query.date_from,
+                    date_to=query.date_to,
+                    max_results=query.max_results,
+                )
+            elif source == "google_trends":
+                print(f"  [{idx}/{total}] Searching Google Trends...")
+                results = google_trends_search(
+                    topic=query.topic,
+                    date_from=query.date_from,
+                    date_to=query.date_to,
+                    max_results=query.max_results,
+                )
             else:
                 print(f"  [{idx}/{total}] Unknown source '{source}', skipping")
                 continue

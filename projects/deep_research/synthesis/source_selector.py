@@ -73,6 +73,21 @@ def select_sources(topic: str, available_sources: List[str], verbose: bool = Tru
                 "40M+ life sciences publications including PubMed and PubMed Central. Best for: "
                 "biomedical research, medicine, biology, pharmacology, clinical studies, life sciences."
             ),
+            "reddit": (
+                "Community discussions, user experiences, and opinions across all topics. Best for: "
+                "real-world experiences, tool comparisons, industry practices, community sentiment, "
+                "product feedback, troubleshooting, market insights."
+            ),
+            "github": (
+                "Open source repositories with stars, forks, and project metadata. Best for: "
+                "open source tools, software projects, library adoption, code examples, "
+                "technology landscape, developer tools, market research on OSS adoption."
+            ),
+            "google_trends": (
+                "Google search interest data over time, related queries, and rising topics. Best for: "
+                "market demand analysis, trend direction, emerging topics, seasonal patterns, "
+                "competitive interest comparison, market research."
+            ),
         }
 
         # Filter to only available sources
@@ -89,15 +104,18 @@ Available Sources:
 
 Your task:
 1. Analyze the research topic and determine what type of information would be most valuable
-2. Select 2-5 sources that are most likely to have relevant, high-quality results
-3. Consider that fewer, more focused sources are better than many irrelevant ones
+2. Select 3-7 sources that are most likely to have relevant, high-quality results
+3. Consider the nature of the topic: academic, industry/practical, or mixed
 4. Provide a brief reason for each selection
 
 Rules:
-- Select at least 2 sources (for redundancy and coverage)
-- Don't select sources that are unlikely to have relevant content
-- Prioritize quality over quantity
-- Consider the nature of the topic (academic vs industry, current vs historical, etc.)
+- Select at least 3 sources (for redundancy and coverage)
+- For industry or practical topics (tools, platforms, company practices, best practices),
+  ALWAYS include "web" and "news" alongside academic sources
+- For academic/scientific topics, prioritize academic sources but still consider "web" for practical context
+- For mixed topics, use a broad selection from both academic and non-academic sources
+- Don't select sources that are clearly irrelevant (e.g., europepmc for a pure computer science topic)
+- When in doubt, include a source rather than exclude it
 
 Respond with ONLY a JSON object in this exact format:
 {{
@@ -128,10 +146,10 @@ Your response:"""
             # Validate selected sources
             selected = [s for s in selected if s in available_sources]
 
-            # Ensure at least 2 sources
-            if len(selected) < 2 and len(available_sources) >= 2:
+            # Ensure at least 3 sources
+            if len(selected) < 3 and len(available_sources) >= 3:
                 if verbose:
-                    print("      Warning: LLM selected <2 sources, using all available sources as fallback")
+                    print("      Warning: LLM selected <3 sources, using all available sources as fallback")
                 return available_sources, {"fallback": "LLM selected too few sources"}
 
             if verbose:

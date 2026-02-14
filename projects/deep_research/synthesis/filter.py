@@ -79,13 +79,14 @@ Source: {result.source}
 Question: Is this paper/article directly relevant to the research topic?
 
 Rules for judging relevance:
-1. The paper should discuss concepts, methods, or applications directly related to the topic
-2. Be lenient with industry news and practical tools - these are often highly relevant even if \
-not academic
-3. Papers from completely different domains (astronomy, biology, physics) are NOT relevant unless \
-they directly apply to the topic
-4. For academic papers, the topic's key terms should appear meaningfully
-5. For news/web articles about tools, companies, or practices in the field, be more permissive
+1. The paper should discuss concepts, methods, or applications related to the topic
+2. Be GENEROUS - if there is ANY reasonable connection to the topic, mark it as relevant
+3. Papers about related subfields, adjacent technologies, or overlapping concepts ARE relevant
+4. Industry news, practical tools, blog posts, and case studies are almost always relevant - keep them
+5. Only mark as NOT relevant if the paper is clearly from a completely unrelated domain with no \
+connection to the topic (e.g., astronomy paper for a software engineering topic)
+6. When in doubt, mark as relevant (true) - it is better to keep a borderline result than to miss \
+something useful
 
 Respond with ONLY a JSON object in this exact format:
 {{"relevant": true/false, "reason": "brief explanation in one sentence"}}

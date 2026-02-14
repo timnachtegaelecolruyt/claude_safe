@@ -4,7 +4,7 @@ A Python-based research automation tool that searches academic papers, synthesiz
 
 ## Features
 
-- **Multi-Source Research**: Searches 10 sources including arXiv, Semantic Scholar, OpenAlex, DBLP, CrossRef, CORE, Europe PMC, web, news, and HackerNews
+- **Multi-Source Research**: Searches 13 sources including arXiv, Semantic Scholar, OpenAlex, DBLP, CrossRef, CORE, Europe PMC, Reddit, GitHub, Google Trends, web, news, and HackerNews
 - **AI Source Selection**: Automatically selects the most relevant sources for each topic
 - **AI Relevance Filtering**: Uses Ollama to automatically filter out irrelevant papers/articles
 - **AI-Powered Synthesis**: Uses local Ollama models to analyze and extract key insights
@@ -18,7 +18,7 @@ A Python-based research automation tool that searches academic papers, synthesiz
 The Deep Research Tool automates the research process:
 
 1. **Analyzes** the topic and selects optimal sources (optional, enabled by default)
-2. **Searches** selected sources (arXiv, OpenAlex, DBLP, Europe PMC, CORE, CrossRef, Semantic Scholar, web, news, HackerNews) for papers and articles
+2. **Searches** selected sources (arXiv, OpenAlex, DBLP, Europe PMC, CORE, CrossRef, Semantic Scholar, Reddit, GitHub, Google Trends, web, news, HackerNews) for papers and articles
 3. **Filters** results using AI to remove irrelevant content (optional, enabled by default)
 4. **Collects** paper metadata, abstracts, and citations
 5. **Analyzes** the research using local Ollama models to identify trends and insights
@@ -182,6 +182,9 @@ The tool intelligently selects which sources to search based on your topic, savi
 - **Europe PMC**: 40M+ life sciences publications including PubMed and PubMed Central
 - **news**: Recent news articles, press releases, and industry announcements
 - **web**: General web content including blogs, documentation, tutorials, and technical articles
+- **Reddit**: Community discussions, real-world experiences, and user opinions across all topics
+- **GitHub**: Open source repositories with stars, forks, and project metadata
+- **Google Trends**: Search interest over time, related queries, and rising topics for market analysis
 - **hackernews**: Tech community discussions and curated links
 
 **Example output:**
@@ -278,7 +281,10 @@ deep_research/
 │   ├── core_source.py        # CORE API integration
 │   ├── europepmc_source.py   # Europe PMC API integration
 │   ├── web_source.py         # Web and news search integration
-│   └── hackernews_source.py  # HackerNews API integration
+│   ├── hackernews_source.py  # HackerNews API integration
+│   ├── reddit_source.py      # Reddit search integration
+│   ├── github_source.py      # GitHub repository search integration
+│   └── google_trends_source.py # Google Trends market analysis
 ├── synthesis/
 │   ├── __init__.py
 │   ├── analyzer.py           # Ollama LLM analysis
